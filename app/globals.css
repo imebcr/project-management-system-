@@ -1,0 +1,216 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html,
+body {
+  min-height: 100%;
+}
+
+body {
+  color: #0c224b;
+  background: linear-gradient(135deg, #e9fcff 0%, #a9effb 45%, #e8ebef 100%);
+  background-attachment: fixed;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ---------- Glass utilities ---------- */
+@layer components {
+  .glass {
+    background: rgba(255, 255, 255, 0.4);
+    -webkit-backdrop-filter: blur(20px);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.65);
+    box-shadow: 0 4px 24px rgba(10, 96, 173, 0.08);
+  }
+  .glass-sm {
+    background: rgba(255, 255, 255, 0.35);
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.6);
+  }
+  .glass-sidebar {
+    background: rgba(255, 255, 255, 0.3);
+    -webkit-backdrop-filter: blur(32px);
+    backdrop-filter: blur(32px);
+    border-right: 1px solid rgba(255, 255, 255, 0.55);
+  }
+  .glass-nav {
+    background: rgba(255, 255, 255, 0.45);
+    -webkit-backdrop-filter: blur(24px);
+    backdrop-filter: blur(24px);
+    border-top: 1px solid rgba(255, 255, 255, 0.65);
+  }
+}
+
+/* ---------- Form inputs ---------- */
+input[type='text'],
+input[type='number'],
+input[type='date'],
+input[type='email'],
+input[type='tel'],
+input[type='password'],
+input[type='url'],
+input[type='search'],
+input[type='time'],
+input[type='datetime-local'],
+textarea,
+select {
+  background: rgba(255, 255, 255, 0.55);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(42, 164, 231, 0.25);
+  color: #0c224b;
+  border-radius: 0.625rem;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.875rem;
+  width: 100%;
+  outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s, background 0.15s;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  border-color: #2aa4e7;
+  box-shadow: 0 0 0 3px rgba(42, 164, 231, 0.18);
+  background: rgba(255, 255, 255, 0.8);
+}
+
+/* Liste déroulante (components/select.tsx) : même apparence qu'un champ. */
+.field {
+  background: rgba(255, 255, 255, 0.55);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(42, 164, 231, 0.25);
+  color: #0c224b;
+  border-radius: 0.625rem;
+  padding: 0.5rem 0.75rem;
+  min-height: 38px;
+  font-size: 0.875rem;
+  width: 100%;
+  outline: none;
+  cursor: pointer;
+  transition: border-color 0.15s, box-shadow 0.15s, background 0.15s;
+}
+.field:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.75);
+  border-color: rgba(42, 164, 231, 0.45);
+}
+.field:focus-visible,
+.field-open {
+  border-color: #2aa4e7;
+  box-shadow: 0 0 0 3px rgba(42, 164, 231, 0.18);
+  background: rgba(255, 255, 255, 0.85);
+  outline: none;
+}
+.field:disabled,
+input:disabled,
+textarea:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+/* Sélecteur de fichier natif : bouton aux couleurs de l'application. */
+input[type='file']::file-selector-button {
+  margin-right: 0.75rem;
+  border: 0;
+  border-radius: 0.75rem;
+  background: rgba(42, 164, 231, 0.15);
+  color: #0a60ad;
+  font-weight: 600;
+  font-size: 0.875rem;
+  padding: 0.5rem 0.75rem;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+input[type='file']::file-selector-button:hover {
+  background: rgba(42, 164, 231, 0.25);
+}
+
+/* Icône calendrier des champs date/heure, teintée comme le reste. */
+input::-webkit-calendar-picker-indicator {
+  cursor: pointer;
+  opacity: 0.55;
+  filter: invert(37%) sepia(83%) saturate(1500%) hue-rotate(185deg);
+}
+
+input[type='checkbox'] {
+  accent-color: #2aa4e7;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: rgba(12, 34, 75, 0.4);
+}
+
+/* Fix browser autofill overriding glass background */
+input:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 1000px rgba(255, 255, 255, 0.7) inset;
+  -webkit-text-fill-color: #0c224b;
+}
+
+input[type='range'] {
+  accent-color: #2aa4e7;
+}
+
+button:focus-visible,
+a:focus-visible {
+  outline: 2px solid #2aa4e7;
+  outline-offset: 2px;
+}
+
+/* ---------- Background blobs ---------- */
+.blob {
+  position: fixed;
+  border-radius: 50%;
+  filter: blur(90px);
+  pointer-events: none;
+  z-index: 0;
+}
+.blob-1 {
+  width: 520px;
+  height: 520px;
+  top: -140px;
+  left: -120px;
+  background: #a9effb;
+  animation: float-1 22s ease-in-out infinite;
+}
+.blob-2 {
+  width: 460px;
+  height: 460px;
+  bottom: -160px;
+  right: -100px;
+  background: rgba(42, 164, 231, 0.12);
+  animation: float-2 26s ease-in-out infinite;
+}
+.blob-3 {
+  width: 380px;
+  height: 380px;
+  top: 40%;
+  left: 45%;
+  background: #a9effb;
+  opacity: 0.7;
+  animation: float-3 30s ease-in-out infinite;
+}
+
+@keyframes float-1 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(80px, 60px) scale(1.08); }
+}
+@keyframes float-2 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(-90px, -70px) scale(1.12); }
+}
+@keyframes float-3 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(-60px, 40px) scale(0.95); }
+  66% { transform: translate(50px, -50px) scale(1.05); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .blob { animation: none; }
+}
+
+.scrollbar-none::-webkit-scrollbar { display: none; }
+.scrollbar-none { scrollbar-width: none; }

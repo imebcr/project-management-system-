@@ -1,0 +1,19 @@
+[Unit]
+Description=Zidny Projets - frontend Next.js
+After=network.target zidny-api.service
+
+[Service]
+User=zidny
+Group=zidny
+WorkingDirectory=/srv/zidny/app
+Environment=NODE_ENV=production
+Environment=PORT=3000
+Environment=HOSTNAME=127.0.0.1
+Environment=BACKEND_URL=http://127.0.0.1:8000
+ExecStart=/usr/bin/npm run start
+Restart=always
+RestartSec=5
+NoNewPrivileges=true
+
+[Install]
+WantedBy=multi-user.target

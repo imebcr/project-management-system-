@@ -1,0 +1,17 @@
+[Unit]
+Description=Zidny Projets - planificateur Celery beat (08:00-08:30, heure d'Alger)
+After=network.target redis-server.service
+Requires=redis-server.service
+
+[Service]
+User=zidny
+Group=zidny
+WorkingDirectory=/srv/zidny/app/backend
+EnvironmentFile=/srv/zidny/app/backend/.env
+ExecStart=/srv/zidny/app/backend/.venv/bin/celery -A config beat --loglevel=INFO --schedule=/var/lib/zidny/celerybeat-schedule
+Restart=always
+RestartSec=5
+NoNewPrivileges=true
+
+[Install]
+WantedBy=multi-user.target

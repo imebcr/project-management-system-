@@ -1,0 +1,9 @@
+{
+  "identities": [
+    {
+      "name": "zidny-dev",
+      "credentials": [{ "accessKey": "zidny", "secretKey": "zidny-dev-secret" }],
+      "actions": ["Admin", "Read", "Write", "List", "Tagging"]
+    }
+  ]
+}

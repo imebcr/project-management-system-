@@ -1,0 +1,25 @@
+[Unit]
+Description=Zidny Projets - API Django (gunicorn)
+After=network.target postgresql.service redis-server.service
+Requires=postgresql.service redis-server.service
+
+[Service]
+User=zidny
+Group=zidny
+WorkingDirectory=/srv/zidny/app/backend
+EnvironmentFile=/srv/zidny/app/backend/.env
+ExecStart=/srv/zidny/app/backend/.venv/bin/gunicorn config.wsgi:application \
+    --bind 127.0.0.1:8000 \
+    --workers 3 \
+    --timeout 120 \
+    --access-logfile - \
+    --forwarded-allow-ips 127.0.0.1
+Restart=always
+RestartSec=5
+# Durcissement
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=full
+
+[Install]
+WantedBy=multi-user.target

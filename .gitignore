@@ -1,0 +1,14 @@
+node_modules
+.next
+next-env.d.ts
+*.tsbuildinfo
+.next-*
+
+# Secrets et fichiers locaux : jamais dans le dépôt
+.env
+.env.*
+!.env.example
+backend/.env
+*.pem
+*.key
+.claude/

@@ -1,0 +1,18 @@
+[Unit]
+Description=Zidny Projets - worker Celery (SHA-256 des livrables, rappels, alertes)
+After=network.target postgresql.service redis-server.service
+Requires=redis-server.service
+
+[Service]
+User=zidny
+Group=zidny
+WorkingDirectory=/srv/zidny/app/backend
+EnvironmentFile=/srv/zidny/app/backend/.env
+ExecStart=/srv/zidny/app/backend/.venv/bin/celery -A config worker --loglevel=INFO --concurrency=2
+Restart=always
+RestartSec=5
+NoNewPrivileges=true
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target

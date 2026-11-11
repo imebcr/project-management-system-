@@ -1,0 +1,16 @@
+Django>=5.2,<5.3
+djangorestframework>=3.16
+djangorestframework-simplejwt>=5.5
+djangorestframework-camel-case>=1.4
+drf-spectacular>=0.28
+django-environ>=0.12
+psycopg[binary]>=3.2
+argon2-cffi>=23.1
+django-storages[s3]>=1.14
+boto3>=1.38
+celery[redis]>=5.5
+cryptography>=44
+gunicorn>=23
+whitenoise>=6.9
+pytest>=8.3
+pytest-django>=4.11
