@@ -1,0 +1,16 @@
+[Unit]
+Description=Zidny Projets - planificateur (Celery beat : rappels, échéances, résumé)
+After=network.target redis-server.service
+
+[Service]
+User=zidny-projets
+Group=zidny-projets
+WorkingDirectory=/var/www/zidny-projets/backend
+EnvironmentFile=/var/www/zidny-projets/backend/.env
+ExecStart=/var/www/zidny-projets/backend/.venv/bin/celery -A config beat --loglevel=INFO --schedule=/var/lib/zidny-projets/celerybeat-schedule
+Restart=always
+RestartSec=5
+NoNewPrivileges=true
+
+[Install]
+WantedBy=multi-user.target

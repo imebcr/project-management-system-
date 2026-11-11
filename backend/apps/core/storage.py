@@ -10,16 +10,31 @@ from botocore.config import Config
 from django.conf import settings
 
 
-@lru_cache(maxsize=1)
-def s3():
+def _client(endpoint):
     return boto3.client(
         's3',
-        endpoint_url=settings.AWS_S3_ENDPOINT_URL,
+        endpoint_url=endpoint,
         aws_access_key_id=settings.AWS_ACCESS_KEY_ID,
         aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY,
         region_name=settings.AWS_S3_REGION_NAME,
         config=Config(signature_version='s3v4', s3={'addressing_style': settings.AWS_S3_ADDRESSING_STYLE}),
     )
+
+
+@lru_cache(maxsize=1)
+def s3():
+    """Client du serveur (lecture, écriture, multipart) : adresse interne, ex. http://127.0.0.1:8333."""
+    return _client(settings.AWS_S3_ENDPOINT_URL)
+
+
+@lru_cache(maxsize=1)
+def s3_public():
+    """
+    Client qui signe les liens donnés aux navigateurs (téléchargement, dépôt) avec l'adresse publique
+    (S3_PUBLIC_ENDPOINT_URL, ex. https://mon-domaine). Sans réglage : même adresse que le serveur.
+    """
+    public = settings.S3_PUBLIC_ENDPOINT_URL
+    return _client(public) if public and public != settings.AWS_S3_ENDPOINT_URL else s3()
 
 
 BUCKET = settings.AWS_STORAGE_BUCKET_NAME
@@ -43,11 +58,11 @@ def presigned_get(key: str, filename: str | None = None, expires: int = 3600, in
     params = {'Bucket': BUCKET, 'Key': key}
     if filename:
         params['ResponseContentDisposition'] = content_disposition(filename, inline)
-    return s3().generate_presigned_url('get_object', Params=params, ExpiresIn=expires)
+    return s3_public().generate_presigned_url('get_object', Params=params, ExpiresIn=expires)
 
 
 def presigned_put(key: str, content_type: str, expires: int = 3600) -> str:
-    return s3().generate_presigned_url('put_object', Params={'Bucket': BUCKET, 'Key': key, 'ContentType': content_type}, ExpiresIn=expires)
+    return s3_public().generate_presigned_url('put_object', Params={'Bucket': BUCKET, 'Key': key, 'ContentType': content_type}, ExpiresIn=expires)
 
 
 def file_url(field, filename: str | None = None, inline: bool = True) -> str | None:
@@ -64,7 +79,7 @@ def multipart_create(key: str, content_type: str) -> str:
 
 
 def multipart_part_url(key: str, upload_id: str, part_number: int, expires: int = 3600) -> str:
-    return s3().generate_presigned_url(
+    return s3_public().generate_presigned_url(
         'upload_part', Params={'Bucket': BUCKET, 'Key': key, 'UploadId': upload_id, 'PartNumber': part_number}, ExpiresIn=expires,
     )
 

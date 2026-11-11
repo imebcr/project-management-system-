@@ -1,0 +1,17 @@
+[Unit]
+Description=Zidny Projets - tâches de fond (Celery worker)
+After=network.target redis-server.service
+
+[Service]
+User=zidny-projets
+Group=zidny-projets
+WorkingDirectory=/var/www/zidny-projets/backend
+EnvironmentFile=/var/www/zidny-projets/backend/.env
+ExecStart=/var/www/zidny-projets/backend/.venv/bin/celery -A config worker --loglevel=INFO --concurrency=1 -n zidny-projets@%%h
+Restart=always
+RestartSec=5
+NoNewPrivileges=true
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target

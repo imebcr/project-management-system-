@@ -106,6 +106,8 @@ AWS_ACCESS_KEY_ID = env('S3_ACCESS_KEY')
 AWS_SECRET_ACCESS_KEY = env('S3_SECRET_KEY')
 AWS_STORAGE_BUCKET_NAME = env('S3_BUCKET', default='zidny')
 AWS_S3_ENDPOINT_URL = env('S3_ENDPOINT_URL', default=None)
+# Adresse publique des liens signés donnés aux navigateurs, si différente de l'adresse interne.
+S3_PUBLIC_ENDPOINT_URL = env('S3_PUBLIC_ENDPOINT_URL', default=None)
 AWS_S3_REGION_NAME = env('S3_REGION', default='us-east-1')
 AWS_S3_ADDRESSING_STYLE = env('S3_ADDRESSING_STYLE', default='path')
 AWS_S3_SIGNATURE_VERSION = 's3v4'
